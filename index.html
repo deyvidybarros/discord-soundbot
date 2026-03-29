@@ -1,0 +1,498 @@
+<!-- <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel SoundBoard</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(31, 41, 55, 0.95);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 10px;
+    }
+
+    p {
+      text-align: center;
+      color: #9ca3af;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: auto;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      margin-bottom: 12px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 16px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .secondary {
+      background: linear-gradient(135deg, #374151, #1f2937);
+    }
+
+    .danger {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+    }
+
+    #status {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #0f172a;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    #panel {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>🎧 SoundBoard</h1>
+    <p>Controle seu bot de áudio no Discord</p>
+
+    <div id="login">
+      <input type="password" id="password" placeholder="Digite a senha"/>
+      <button onclick="login()">Entrar</button>
+    </div>
+
+    <div id="panel">
+      <div class="grid">
+        <button onclick="callApi('/api/join')">Entrar no canal</button>
+        <button class="secondary" onclick="callApi('/api/play/som1')">Som 1</button>
+        <button class="secondary" onclick="callApi('/api/play/som2')">Som 2</button>
+        <button class="secondary" onclick="callApi('/api/play/som3')">Som 3</button>
+        <button class="danger" onclick="callApi('/api/leave')">Sair</button>
+      </div>
+    </div>
+
+    <div id="status">Aguardando...</div>
+  </div>
+
+  <script>
+    let password = "";
+
+    function setStatus(msg) {
+      document.getElementById("status").innerText = msg;
+    }
+
+    async function login() {
+      password = document.getElementById("password").value;
+
+      if (!password) {
+        setStatus("Digite a senha.");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/join", {
+          method: "POST",
+          headers: {
+            "x-password": password
+          }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setStatus(data.message || "Senha inválida");
+          return;
+        }
+
+        document.getElementById("login").style.display = "none";
+        document.getElementById("panel").style.display = "block";
+        setStatus("Painel liberado 🚀");
+
+      } catch {
+        setStatus("Erro ao conectar");
+      }
+    }
+
+    async function callApi(url) {
+      setStatus("Processando...");
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "x-password": password
+          }
+        });
+
+        const data = await res.json();
+        setStatus(data.message);
+
+      } catch {
+        setStatus("Erro no servidor");
+      }
+    }
+  </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoundBot Panel</title>
+  <link rel="icon" type="image/png" href="preview.png" />
+
+  <meta name="description" content="Painel controlar soundbot para Discord." />
+  <meta name="author" content="Deyvidy" />
+
+  <meta property="og:title" content="Discord SoundBot" />
+  <meta property="og:description" content="Controle seu bot de áudio no Discord em tempo real." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="preview.png" />  
+  <meta name="twitter:image" content="preview.png" />
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #131a30;
+      --card-2: #0f172a;
+      --text: #edf2ff;
+      --muted: #a7b0c8;
+      --primary: #5865f2;
+      --primary-hover: #4752c4;
+      --danger: #dc2626;
+      --danger-hover: #b91c1c;
+      --line: rgba(255,255,255,.08);
+      --ok: #16a34a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top, #1b2550 0%, var(--bg) 45%);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 460px;
+      background: rgba(19, 26, 48, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      text-align: center;
+    }
+
+    p.subtitle {
+      margin: 0 0 20px;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .login, .panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .hidden { display: none; }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--card-2);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      padding: 15px 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .12s ease, opacity .12s ease, background .12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-dark { background: #202945; color: white; }
+    .btn-dark:hover { background: #2a3558; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: var(--danger-hover); }
+
+    .status {
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14px;
+      color: var(--muted);
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .pill {
+      display: inline-flex;
+      margin: 0 auto 30px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(88,101,242,.14);
+      color: #cdd4ff;
+      border: 1px solid rgba(88,101,242,.25);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: #bdf4c8;
+    }
+
+    @media (max-width: 460px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="pill">Discord Voice Panel</div>
+    <h1>Painel do Bot</h1>
+    <p class="subtitle">Entre no canal, toque seus áudios e controle tudo pelo navegador.</p>
+
+    <section id="loginBox" class="login">
+      <input id="password" type="password" placeholder="Digite a senha do painel" />
+      <button id="loginBtn" class="btn-primary">Entrar no painel</button>
+      <div id="loginStatus" class="status">Digite a senha configurada no arquivo <strong>.env</strong>.</div>
+    </section>
+
+    <section id="panelBox" class="panel hidden">
+      <div id="status" class="status">Painel conectado.</div>
+
+      <div class="grid">
+        <button class="btn-primary" data-action="join">Entrar no canal</button>
+        <button class="btn-danger" data-action="leave">Sair do canal</button>
+
+        <button class="btn-dark" data-sound="eu_vou_pra_narguila">Eu vou pra narguila</button>
+        <button class="btn-dark" data-sound="rosh_duplo">Hoje é rosh duplo</button>        
+        <button class="btn-dark" data-sound="alemanha">Alemanha/button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const loginBox = document.getElementById('loginBox');
+    const panelBox = document.getElementById('panelBox');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginStatus = document.getElementById('loginStatus');
+    const statusBox = document.getElementById('status');
+
+    let panelPassword = localStorage.getItem('panel_password') || '';
+
+    function setStatus(message, isOk = false) {
+      statusBox.innerHTML = isOk ? `<span class="ok">${message}</span>` : message;
+    }
+
+    function showPanel() {
+      loginBox.classList.add('hidden');
+      panelBox.classList.remove('hidden');
+      checkStatus();
+    }
+
+    function showLogin() {
+      panelBox.classList.add('hidden');
+      loginBox.classList.remove('hidden');
+    }
+
+    async function api(url, method = 'GET') {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'x-password': panelPassword,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json().catch(() => ({
+        ok: false,
+        message: 'Resposta inválida do servidor.'
+      }));
+
+      if (response.status === 401) {
+        localStorage.removeItem('panel_password');
+        panelPassword = '';
+        showLogin();
+        loginStatus.textContent = 'Senha inválida ou sessão expirada.';
+        throw new Error(data.message || 'Não autorizado.');
+      }
+
+      if (!response.ok || data.ok === false) {
+        throw new Error(data.message || 'Erro na requisição.');
+      }
+
+      return data;
+    }
+
+    async function checkStatus() {
+      try {
+        const data = await api('/api/status');
+        const text = data.connected
+          ? 'Bot conectado ao canal de voz.'
+          : 'Bot online, mas ainda fora do canal de voz.';
+        setStatus(text, true);
+      } catch (error) {
+        setStatus(error.message || 'Erro ao carregar status.');
+      }
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      const value = passwordInput.value.trim();
+
+      if (!value) {
+        loginStatus.textContent = 'Digite a senha primeiro.';
+        return;
+      }
+
+      panelPassword = value;
+      localStorage.setItem('panel_password', panelPassword);
+      loginStatus.textContent = 'Validando...';
+
+      try {
+        await api('/api/status');
+        showPanel();
+      } catch (error) {
+        localStorage.removeItem('panel_password');
+        panelPassword = '';
+        loginStatus.textContent = error.message || 'Senha inválida.';
+      }
+    });
+
+    passwordInput.addEventListener('keydown', async (event) => {
+      if (event.key === 'Enter') {
+        loginBtn.click();
+      }
+    });
+
+    document.querySelectorAll('[data-action]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const action = button.getAttribute('data-action');
+        button.disabled = true;
+        setStatus('Processando...');
+
+        try {
+          const data = await api(`/api/${action}`, 'POST');
+          setStatus(data.message, true);
+        } catch (error) {
+          setStatus(error.message || 'Erro ao executar ação.');
+        } finally {
+          button.disabled = false;
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-sound]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const sound = button.getAttribute('data-sound');
+        button.disabled = true;
+        setStatus('Tocando áudio...');
+
+        try {
+          const data = await api(`/api/play/${sound}`, 'POST');
+          setStatus(data.message, true);
+        } catch (error) {
+          setStatus(error.message || 'Erro ao tocar áudio.');
+        } finally {
+          button.disabled = false;
+        }
+      });
+    });
+
+    if (panelPassword) {
+      showPanel();
+    }
+  </script>
+</body>
+</html>
