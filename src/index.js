@@ -60,7 +60,7 @@ const player = createAudioPlayer({
 const sounds = {
   eu_vou_pra_narguila: path.join(__dirname, "..", "sounds", "eu_vou_pra_narguila.mp3"),
   rosh_duplo: path.join(__dirname, "..", "sounds", "rosh_duplo.mp3"),
-  som3: path.join(__dirname, "..", "sounds", "som3.mp3")
+  alemanha: path.join(__dirname, "..", "sounds", "alemanha.mp3")
 };
 
 // ================== AUTH ==================
