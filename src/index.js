@@ -64,7 +64,8 @@ const sounds = {
   me_derrubaram: path.join(__dirname, "..", "sounds", "me_derrubaram.mp3"),
   vai_chupetinha: path.join(__dirname, "..", "sounds", "vai_chupetinha.mp3"),
   senhor_me_ouve: path.join(__dirname, "..", "sounds", "senhor_me_ouve.mp3"),
-  ouvo_sim: path.join(__dirname, "..", "sounds", "ouvo_sim.mp3"),  
+  ouvo_sim: path.join(__dirname, "..", "sounds", "ouvo_sim.mp3"),
+  ce_ta_brabo: path.join(__dirname, "..", "sounds", "ce_ta_brabo.mp3"),
 };
 
 // ================== AUTH ==================
