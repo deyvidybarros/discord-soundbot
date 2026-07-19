@@ -73,7 +73,12 @@ const sounds = {
   dilma: path.join(__dirname, "..", "sounds", "dilma.mp3"),
   quem_manda_aqui: path.join(__dirname, "..", "sounds", "quem_manda_aqui.mp3"),
   quem_matou: path.join(__dirname, "..", "sounds", "quem_matou.mp3"),
-  papa: path.join(__dirname, "..", "sounds", "papa.mp3")  
+  papa: path.join(__dirname, "..", "sounds", "papa.mp3"),
+  risada_bolsonaro: path.join(__dirname, "..", "sounds", "risada_bolsonaro.mp3"),
+  e_mentira: path.join(__dirname, "..", "sounds", "e_mentira.mp3"),
+  explica: path.join(__dirname, "..", "sounds", "explica.mp3"),
+  cucurella: path.join(__dirname, "..", "sounds", "cucurella.mp3"),
+  
 };
 
 // ================== USER SOUNDS ==================
