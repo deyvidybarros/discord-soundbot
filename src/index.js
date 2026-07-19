@@ -70,7 +70,9 @@ const sounds = {
   ce_ta_brabo: path.join(__dirname, "..", "sounds", "ce_ta_brabo.mp3"),
   max_verstappen: path.join(__dirname, "..", "sounds", "max_verstappen.mp3"),
   ele_fez_um_giro: path.join(__dirname, "..", "sounds", "ele_fez_um_giro.mp3"),
-  dilma: path.join(__dirname, "..", "sounds", "dilma.mp3")
+  dilma: path.join(__dirname, "..", "sounds", "dilma.mp3"),
+  quem_manda_aqui: path.join(__dirname, "..", "sounds", "quem_manda_aqui.mp3"),
+  quem_matou: path.join(__dirname, "..", "sounds", "quem_matou.mp3")  
 };
 
 // ================== USER SOUNDS ==================
